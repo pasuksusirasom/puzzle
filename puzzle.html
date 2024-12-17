@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dėlionė Mamai</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            margin: 0;
+            background-color: #f0f0f0;
+        }
+        h1 {
+            color: #444;
+        }
+        canvas {
+            display: block;
+            margin: 0 auto;
+            border: 2px solid #ddd;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+        }
+    </style>
+</head>
+<body>
+    <h1>Sveika, Mama! Sudėliok dėlionę 😊</h1>
+    <canvas id="puzzleCanvas" width="450" height="450"></canvas>
+    <script>
+        const rows = 3, cols = 3; // Dėlionės dydis
+        const canvas = document.getElementById('puzzleCanvas');
+        const ctx = canvas.getContext('2d');
+        const img = new Image();
+        img.src = 'Mama2.jpg'; // Naudok nuotraukos pavadinimą
+        
+        const pieces = [];
+        let pieceWidth, pieceHeight;
+        
+        img.onload = function() {
+            pieceWidth = img.width / cols;
+            pieceHeight = img.height / rows;
+            shuffleAndDraw();
+        }
+
+        function shuffleAndDraw() {
+            pieces.length = 0;
+            for (let y = 0; y < rows; y++) {
+                for (let x = 0; x < cols; x++) {
+                    pieces.push({x: x * pieceWidth, y: y * pieceHeight});
+                }
+            }
+            pieces.sort(() => Math.random() - 0.5); // Maišome dėlionės dalis
+            drawPuzzle();
+        }
+
+        function drawPuzzle() {
+            let index = 0;
+            for (let y = 0; y < rows; y++) {
+                for (let x = 0; x < cols; x++) {
+                    const piece = pieces[index++];
+                    ctx.drawImage(img, piece.x, piece.y, pieceWidth, pieceHeight, x * pieceWidth, y * pieceHeight, pieceWidth, pieceHeight);
+                }
+            }
+        }
+    </script>
+</body>
+</html>
